@@ -22,13 +22,8 @@ public class Solution(string inputPath) : SolutionBase
     private int SolvePartOne()
     {
         var input = Input ?? throw new NullReferenceException("Input is null.");
-        var floor = 0;
 
-        foreach (var e in input)
-            if (e == '(') floor++;
-            else floor--;
-
-        return floor;
+        return input.Aggregate(0, (acc, e) => e == '(' ? acc + 1 : acc - 1);
     }
 
     private int SolvePartTwo()
@@ -38,10 +33,13 @@ public class Solution(string inputPath) : SolutionBase
 
         for (var i = 0; i < input.Length; i++)
         {
-            if (floor == -1) return i;
+            if (floor == -1)
+                return i;
 
-            if (input[i] == '(') floor++;
-            else floor--;
+            if (input[i] == '(')
+                floor++;
+            else
+                floor--;
         }
 
         return -1;
