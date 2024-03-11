@@ -2,11 +2,15 @@
 
 const string usage =
     """
-    Usage: dotnet run <year> <day>
-    Prints the puzzle solution at the given year and day.
+    Usage: dotnet run [YEAR [DAY...]]
+    Prints the puzzle solutions for the given year(s) and day(s).
+    
+        YEAR    If no year is given, prints every solution for every day. Must be in YYYY format.
+        DAY     If no day is given, prints every solution for the given year. Must be in DD format and separated
+                by commas if multiple are given.
     """;
 
-if (args.Length != 2)
+if (args.Length > 2)
 {
     Console.WriteLine("Invalid number of arguments.");
     Console.WriteLine("----------------------------");
@@ -14,11 +18,25 @@ if (args.Length != 2)
     Environment.Exit(1);
 }
 
+List<string> year = [];
+List<string> days = [];
+
+switch (args.Length)
+{
+    case 0:
+        break;
+    case 1:
+        year = [args[0]];
+        break;
+    case 2:
+        year = [args[0]];
+        days = args[1].Split(",").ToList();
+        break;
+}
+
 try
 {
-    string year = args[0], day = args[1];
-
-    Runner.RunSolutions(year, day);
+    Runner.RunSolutions(year, days);
 }
 catch (Exception error)
 {

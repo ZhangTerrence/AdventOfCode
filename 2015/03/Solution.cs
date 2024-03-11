@@ -8,15 +8,15 @@ public class Solution(string inputPath) : SolutionBase
     private string InputPath { get; } = inputPath;
     private string? Input { get; set; }
 
-    public override void PrintSolutions()
+    public override void PrintSolutions(string ascii1, string ascii2)
     {
         Input = File.ReadAllText(InputPath);
 
-        var houses = SolvePartOne();
-        Console.WriteLine($"\ufe42 Part 1 => {houses}");
+        var houses1 = SolvePartOne();
+        Console.WriteLine($"{ascii1} Part 1 => {houses1}");
 
         var houses2 = SolvePartTwo();
-        Console.WriteLine($"\ufe42 Part 2 => {houses2}");
+        Console.WriteLine($"{ascii2} Part 2 => {houses2}");
     }
 
     private int SolvePartOne()
