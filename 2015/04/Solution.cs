@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Security.Cryptography;
 using System.Text;
 using AdventOfCode.Lib;
@@ -5,57 +6,47 @@ using AdventOfCode.Lib;
 namespace AdventOfCode._2015._04;
 
 [Solution("The Ideal Stocking Stuffer", 2015, 04)]
-public class Solution(string inputPath) : SolutionBase
+public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    private string InputPath { get; } = inputPath;
-    private string? Input { get; set; }
-
-    public override void PrintSolutions(string ascii1, string ascii2)
+    protected override int SolvePartOne()
     {
-        Input = File.ReadAllText(InputPath);
-
-        var number1 = SolvePartOne();
-        Console.WriteLine($"{ascii1} Part 1 => {number1}");
-
-        var number2 = SolvePartTwo();
-        Console.WriteLine($"{ascii2} Part 2 => {number2}");
+        return ComputeLowest("00000");
     }
 
-    private int SolvePartOne()
+    protected override int SolvePartTwo()
     {
-        var input = Input ?? throw new NullReferenceException("Input is null.");
-
-        var i = 0;
-        var inputBytes = Encoding.ASCII.GetBytes($"{input}{i}");
-        var hashBytes = MD5.HashData(inputBytes);
-        var hashString = Convert.ToHexString(hashBytes);
-        while (hashString[..5] != "00000")
-        {
-            i++;
-            inputBytes = Encoding.ASCII.GetBytes($"{input}{i}");
-            hashBytes = MD5.HashData(inputBytes);
-            hashString = Convert.ToHexString(hashBytes);
-        }
-
-        return i;
+        return ComputeLowest("000000");
     }
 
-    private int SolvePartTwo()
+    private int ComputeLowest(string match)
     {
-        var input = Input ?? throw new NullReferenceException("Input is null.");
+        var queue = new ConcurrentQueue<int>();
 
-        var i = 0;
-        var inputBytes = Encoding.ASCII.GetBytes($"{input}{i}");
-        var hashBytes = MD5.HashData(inputBytes);
-        var hashString = Convert.ToHexString(hashBytes);
-        while (hashString[..6] != "000000")
-        {
-            i++;
-            inputBytes = Encoding.ASCII.GetBytes($"{input}{i}");
-            hashBytes = MD5.HashData(inputBytes);
-            hashString = Convert.ToHexString(hashBytes);
-        }
+        Parallel.ForEach(
+            Integers(),
+            MD5.Create,
+            (i, state, md5) =>
+            {
+                var inputBytes = Encoding.ASCII.GetBytes($"{Input[0]}{i}");
+                var hashBytes = MD5.HashData(inputBytes);
+                var hashString = Convert.ToHexString(hashBytes);
 
-        return i;
+                if (hashString.StartsWith(match))
+                {
+                    queue.Enqueue(i);
+                    state.Stop();
+                }
+
+                return md5;
+            },
+            _ => { }
+        );
+
+        return queue.Min();
+    }
+
+    private static IEnumerable<int> Integers()
+    {
+        for (var i = 0;; i++) yield return i;
     }
 }

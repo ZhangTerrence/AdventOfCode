@@ -3,45 +3,25 @@ using AdventOfCode.Lib;
 namespace AdventOfCode._2015._01;
 
 [Solution("Not Quite Lisp", 2015, 01)]
-public class Solution(string inputPath) : SolutionBase
+public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    private string InputPath { get; } = inputPath;
-    private string? Input { get; set; }
-
-    public override void PrintSolutions(string ascii1, string ascii2)
+    protected override int SolvePartOne()
     {
-        Input = File.ReadAllText(InputPath);
-
-        var floor = SolvePartOne();
-        Console.WriteLine($"{ascii1} Part 1 => {floor}");
-
-        var pos = SolvePartTwo();
-        Console.WriteLine($"{ascii2} Part 2 => {pos}");
+        return TraverseFloors().Last().level;
     }
 
-    private int SolvePartOne()
+    protected override int SolvePartTwo()
     {
-        var input = Input ?? throw new NullReferenceException("Input is null.");
-
-        return input.Aggregate(0, (acc, e) => e == '(' ? acc + 1 : acc - 1);
+        return TraverseFloors().First(pair => pair.level == -1).i;
     }
 
-    private int SolvePartTwo()
+    private IEnumerable<(int i, int level)> TraverseFloors()
     {
-        var input = Input ?? throw new NullReferenceException("Input is null.");
-        var floor = 0;
-
-        for (var i = 0; i < input.Length; i++)
+        var level = 0;
+        for (var j = 0; j < Input[0].Length; j++)
         {
-            if (floor == -1)
-                return i;
-
-            if (input[i] == '(')
-                floor++;
-            else
-                floor--;
+            level += Input[0][j] == '(' ? 1 : -1;
+            yield return (j + 1, level);
         }
-
-        return -1;
     }
 }

@@ -3,86 +3,47 @@ using AdventOfCode.Lib;
 namespace AdventOfCode._2015._03;
 
 [Solution("Perfectly Spherical Houses in a Vacuum", 2015, 03)]
-public class Solution(string inputPath) : SolutionBase
+public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    private string InputPath { get; } = inputPath;
-    private string? Input { get; set; }
-
-    public override void PrintSolutions(string ascii1, string ascii2)
+    protected override int SolvePartOne()
     {
-        Input = File.ReadAllText(InputPath);
-
-        var houses1 = SolvePartOne();
-        Console.WriteLine($"{ascii1} Part 1 => {houses1}");
-
-        var houses2 = SolvePartTwo();
-        Console.WriteLine($"{ascii2} Part 2 => {houses2}");
+        return DeliverPresents(1);
     }
 
-    private int SolvePartOne()
+    protected override int SolvePartTwo()
     {
-        var input = Input ?? throw new NullReferenceException("Input is null.");
+        return DeliverPresents(2);
+    }
 
-        var houses = new List<(int, int)> { (0, 0) };
+    private int DeliverPresents(int deliverers)
+    {
+        var delivered = new HashSet<(int, int)> { (0, 0) };
+        var positions = new (int x, int y)[deliverers];
+        for (var i = 0; i < deliverers; i++) positions[i] = (0, 0);
 
-        foreach (var direction in input)
+        var deliverer = 0;
+        foreach (var direction in Input[0])
         {
-            var (x, y) = houses.LastOrDefault();
-
             switch (direction)
             {
                 case '^':
-                    houses.Add((x, y + 1));
+                    positions[deliverer].y++;
                     break;
                 case '>':
-                    houses.Add((x + 1, y));
+                    positions[deliverer].x++;
                     break;
                 case 'v':
-                    houses.Add((x, y - 1));
+                    positions[deliverer].y--;
                     break;
                 case '<':
-                    houses.Add((x - 1, y));
-                    break;
-            }
-        }
-
-        return houses.Distinct().Count();
-    }
-
-    private int SolvePartTwo()
-    {
-        var input = Input ?? throw new NullReferenceException("Input is null.");
-
-        var santa = (0, 0);
-        var robotSanta = (0, 0);
-        var houses = new List<(int, int)> { (0, 0) };
-
-        for (var i = 0; i < input.Length; i++)
-        {
-            var (x, y) = i % 2 == 0 ? santa : robotSanta;
-
-            switch (input[i])
-            {
-                case '^':
-                    houses.Add((x, y + 1));
-                    break;
-                case '>':
-                    houses.Add((x + 1, y));
-                    break;
-                case 'v':
-                    houses.Add((x, y - 1));
-                    break;
-                case '<':
-                    houses.Add((x - 1, y));
+                    positions[deliverer].x--;
                     break;
             }
 
-            if (i % 2 == 0)
-                santa = houses.LastOrDefault();
-            else
-                robotSanta = houses.LastOrDefault();
+            delivered.Add(positions[deliverer]);
+            deliverer = (deliverer + 1) % deliverers;
         }
 
-        return houses.Distinct().Count();
+        return delivered.Count;
     }
 }
