@@ -12,6 +12,8 @@
         <Folder Include="2015\02\"/>
         <Folder Include="2015\03\"/>
         <Folder Include="2015\04\"/>
+        <Folder Include="2015\05\"/>
+        <Folder Include="2015\06\"/>
     </ItemGroup>
 
 </Project>
