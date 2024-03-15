@@ -7,22 +7,12 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
 {
     protected override int SolvePartOne()
     {
-        return FollowInstructions(1, Light);
-
-        int Light(int light)
-        {
-            return light;
-        }
+        return FollowInstructions(1, e => e);
     }
 
     protected override int SolvePartTwo()
     {
-        return FollowInstructions(2, Brightness);
-
-        int Brightness(int light)
-        {
-            return light;
-        }
+        return FollowInstructions(2, e => e);
     }
 
     private int FollowInstructions(int part, AggregateFunction f)
