@@ -4,10 +4,10 @@ namespace AdventOfCode.Lib;
 
 public static class Runner
 {
-    public static void RunSolutions(List<string> year, List<string> days)
+    public static void RunSolutions(Dictionary<string, List<string>> givenDays)
     {
-        var (intYears, intDays) = ValidateInputs(year, days);
-        var solutions = GetSolutions(intYears, intDays);
+        var givenIntDays = ValidateInputs(givenDays);
+        var solutions = GetSolutions(givenIntDays);
 
         if (solutions.Count == 0)
         {
@@ -16,7 +16,7 @@ public static class Runner
         else
         {
             var groupedSolutions = solutions.OrderBy(e => e.attr.Year + e.attr.Day).GroupBy(e => e.attr.Year).ToList();
-            
+
             Console.WriteLine("Advent Of Code");
 
             foreach (var group in groupedSolutions)
@@ -34,7 +34,7 @@ public static class Runner
                 {
                     var lastDay = pair == group.Last();
                     var yearLine = lastDay ? " " : "\u2502";
-                    
+
                     var dayAscii = lastDay
                         ? $"{mainLine}   \u2514\u2500\u2500 {pair.attr.Day:00}. {pair.attr.Title}:"
                         : $"{mainLine}   \u251c\u2500\u2500 {pair.attr.Day:00}. {pair.attr.Title}:";
@@ -52,40 +52,36 @@ public static class Runner
         }
     }
 
-    private static (List<int>, List<int>) ValidateInputs(List<string> year, List<string> days)
+    private static Dictionary<int, List<int>> ValidateInputs(Dictionary<string, List<string>> givenDays)
     {
-        var intYears = new List<int>();
+        var givenIntDays = new Dictionary<int, List<int>>();
 
-        foreach (var e in year)
+        foreach (var year in givenDays.Keys)
         {
-            if (!int.TryParse(e, out var intYear))
-                throw new Exception("Invalid argument type.");
+            if (!int.TryParse(year, out var intYear))
+                throw new Exception("Invalid year.");
 
-            if (e.Length != 4) throw new Exception("Invalid argument length.");
+            givenIntDays[intYear] = [];
 
-            intYears.Add(intYear);
+            foreach (var day in givenDays[year])
+            {
+                if (!int.TryParse(day, out var intDay))
+                    throw new Exception("Invalid day.");
+
+                givenIntDays[intYear].Add(intDay);
+            }
         }
 
-        var intDays = new List<int>();
-
-        foreach (var e in days)
-        {
-            if (!int.TryParse(e, out var intDay))
-                throw new Exception("Invalid argument type.");
-
-            intDays.Add(intDay);
-        }
-
-        return (intYears, intDays);
+        return givenIntDays;
     }
 
-    private static List<(SolutionBase solution, SolutionAttribute attr)> GetSolutions(List<int> year, List<int> days)
+    private static List<(SolutionBase solution, SolutionAttribute attr)> GetSolutions(
+        Dictionary<int, List<int>> givenIntDays)
     {
         var assemblies = Assembly.GetExecutingAssembly().GetTypes()
             .Where(e => e.IsSubclassOf(typeof(SolutionBase))).ToList();
 
-        var allSolutions =
-            new List<(SolutionBase solution, SolutionAttribute attr)>();
+        var allSolutions = new List<(SolutionBase solution, SolutionAttribute attr)>();
 
         foreach (var assembly in assemblies)
         {
@@ -101,22 +97,21 @@ public static class Runner
             allSolutions.Add(((SolutionBase)instance, attr));
         }
 
-        switch (year.Count)
+        var solutions = new List<(SolutionBase solution, SolutionAttribute attr)>();
+
+        foreach (var year in givenIntDays.Keys)
         {
-            case 0 when days.Count == 0:
-                return allSolutions;
-            case 1 when days.Count == 0:
-                return allSolutions.Where(e => e.attr.Year == year[0]).ToList();
-            case 1 when days.Count > 0:
-                var specificSolutions = new List<(SolutionBase solution, SolutionAttribute attr)>();
+            if (givenIntDays[year].Count == 0)
+            {
+                solutions.AddRange(allSolutions.Where(solution => solution.attr.Year == year));
+                continue;
+            }
 
-                foreach (var day in days)
-                    specificSolutions.AddRange(allSolutions.Where(e => e.attr.Year == year[0] && e.attr.Day == day)
-                        .ToList());
-
-                return specificSolutions;
-            default:
-                return [];
+            foreach (var day in givenIntDays[year])
+                solutions.AddRange(allSolutions
+                    .Where(solution => solution.attr.Year == year && solution.attr.Day == day).ToList());
         }
+
+        return solutions;
     }
 }
