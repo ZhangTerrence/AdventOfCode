@@ -29,7 +29,7 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
                 operands => operands[0] << operands[1]) ??
             ApplyGate(signalCalculator, instruction, @"NOT (\w+) -> (\w+)", operands => ~operands[0]) ??
             ApplyGate(signalCalculator, instruction, @"(\w+) -> (\w+)", operands => operands[0]) ??
-            throw new ArgumentOutOfRangeException(nameof(instruction), instruction, null));
+            throw new Exception(instruction));
     }
 
     private static SignalCalculator? ApplyGate(
@@ -52,7 +52,7 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
         signalCalculator[circuit] = state =>
         {
             if (state.TryGetValue(circuit, out var signal)) return signal;
-            
+
             var intOperands = operands
                 .Select(operand => int.TryParse(operand, out var i) ? i : signalCalculator[operand](state)).ToList();
             state[circuit] = bitOp(intOperands);

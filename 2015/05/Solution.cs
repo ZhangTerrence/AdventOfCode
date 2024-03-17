@@ -7,36 +7,30 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
 {
     protected override int SolvePartOne()
     {
-        return AggregateStrings(FilterStrings);
-
-        bool FilterStrings(string line)
+        return FilterStrings(line =>
         {
             var threeVowels = line.Count(c => "aeoiu".Contains(c)) >= 3;
             var duplicate = Enumerable.Range(0, line.Length - 1).Any(i => line[i] == line[i + 1]);
             var reserved = "ab.cd.pq.xy".Split(".").Any(line.Contains);
 
             return threeVowels && duplicate && !reserved;
-        }
+        });
     }
 
     protected override int SolvePartTwo()
     {
-        return AggregateStrings(FilterStrings);
-
-        bool FilterStrings(string line)
+        return FilterStrings(line =>
         {
             var appearsTwice = Enumerable.Range(0, line.Length - 1)
                 .Any(i => line.IndexOf(line.Substring(i, 2), i + 2, StringComparison.Ordinal) >= 0);
             var betweenRepeat = Enumerable.Range(0, line.Length - 2).Any(i => line[i] == line[i + 2]);
 
             return appearsTwice && betweenRepeat;
-        }
+        });
     }
 
-    private int AggregateStrings(AggregateFunction f)
+    private int FilterStrings(Func<string, bool> f)
     {
-        return Input.Count(line => f(line));
+        return Input.Count(f);
     }
-
-    private delegate bool AggregateFunction(string line);
 }

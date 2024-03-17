@@ -52,9 +52,9 @@ public static class Runner
         foreach (var e in year)
         {
             if (!int.TryParse(e, out var intYear))
-                throw new ArgumentException("Invalid argument type.");
+                throw new Exception("Invalid argument type.");
 
-            if (e.Length != 4) throw new ArgumentException("Invalid argument length.");
+            if (e.Length != 4) throw new Exception("Invalid argument length.");
 
             intYears.Add(intYear);
         }
@@ -64,7 +64,7 @@ public static class Runner
         foreach (var e in days)
         {
             if (!int.TryParse(e, out var intDay))
-                throw new ArgumentException("Invalid argument type.");
+                throw new Exception("Invalid argument type.");
 
             intDays.Add(intDay);
         }
@@ -85,10 +85,9 @@ public static class Runner
             var attr = assembly.GetCustomAttribute<SolutionAttribute>();
 
             if (attr is null) continue;
-
-            var instance =
-                Activator.CreateInstance(assembly,
-                    $"./{attr.Year}/{attr.Day:00}/input.txt");
+            
+            var inputPath = Path.Combine([Environment.CurrentDirectory, $"{attr.Year}", $"{attr.Day:00}", "input.txt"]);
+            var instance =Activator.CreateInstance(assembly, inputPath);
 
             if (instance is null) continue;
 

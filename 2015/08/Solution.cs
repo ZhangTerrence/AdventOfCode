@@ -9,26 +9,25 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
     protected override int SolvePartOne()
     {
         return CalculateDifference(
-            e => e.Replace(@"\\", ".").Replace(@"\""", "."),
-            e => Regex.Replace(e, @"\\x[a-z0-9]{2}", "."),
-            e => e.Substring(1, e.Length - 2));
+            s => s.Replace(@"\\", ".").Replace(@"\""", "."),
+            s => Regex.Replace(s, @"\\x[a-z0-9]{2}", "."),
+            s => s.Substring(1, s.Length - 2));
     }
 
     protected override int SolvePartTwo()
     {
         return CalculateDifference(
-            e => e.Replace(@"\", @"\\").Replace(@"""", @"\"""),
-            e => Regex.Replace(e, @"(\\x[a-z0-9]{2})$", "\\$1"),
-            e => $@"""{e}""");
+            s => s.Replace(@"\", @"\\").Replace(@"""", @"\"""),
+            s => Regex.Replace(s, @"(\\x[a-z0-9]{2})$", "\\$1"),
+            s => $@"""{s}""");
     }
 
     private int CalculateDifference(AggregateFunction x, AggregateFunction y, AggregateFunction z)
     {
-        var original = Input.Aggregate(0, (acc, e) => acc + e.Length);
+        var original = Input.Aggregate(0, (acc, s) => acc + s.Length);
         var altered = Input
-            .Select(e => x(e)).Select(e => y(e)).Select(e => z(e))
-            .Aggregate(0, (acc, e) => acc + e.Length);
-
+            .Select(s => x(s)).Select(s => y(s)).Select(s => z(s))
+            .Aggregate(0, (acc, s) => acc + s.Length);
         return Math.Abs(original - altered);
     }
 

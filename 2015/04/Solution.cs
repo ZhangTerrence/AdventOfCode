@@ -31,12 +31,10 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
                 var hashBytes = MD5.HashData(inputBytes);
                 var hashString = Convert.ToHexString(hashBytes);
 
-                if (hashString.StartsWith(match))
-                {
-                    queue.Enqueue(i);
-                    state.Stop();
-                }
+                if (!hashString.StartsWith(match)) return md5;
 
+                queue.Enqueue(i);
+                state.Stop();
                 return md5;
             },
             _ => { }

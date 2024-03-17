@@ -17,7 +17,7 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
 
     private int DeliverPresents(int deliverers)
     {
-        var delivered = new HashSet<(int, int)> { (0, 0) };
+        var uniqueHouses = new HashSet<(int, int)> { (0, 0) };
         var positions = new (int x, int y)[deliverers];
         for (var i = 0; i < deliverers; i++) positions[i] = (0, 0);
 
@@ -40,10 +40,10 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
                     break;
             }
 
-            delivered.Add(positions[deliverer]);
+            uniqueHouses.Add(positions[deliverer]);
             deliverer = (deliverer + 1) % deliverers;
         }
 
-        return delivered.Count;
+        return uniqueHouses.Count;
     }
 }

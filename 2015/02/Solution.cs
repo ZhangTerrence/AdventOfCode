@@ -7,33 +7,22 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
 {
     protected override int SolvePartOne()
     {
-        return AggregatePresents(CalcWrappingPaper);
-
-        int CalcWrappingPaper(int x, int y, int z)
-        {
-            return 2 * (x * y + y * z + x * z) + x * y;
-        }
+        return AggregatePresents((x, y, z) => 2 * (x * y + y * z + x * z) + x * y);
     }
 
     protected override int SolvePartTwo()
     {
-        return AggregatePresents(CalcRibbon);
-
-        int CalcRibbon(int x, int y, int z)
-        {
-            return 2 * (x + y) + x * y * z;
-        }
+        return AggregatePresents((x, y, z) => 2 * (x + y) + x * y * z);
     }
 
-    private int AggregatePresents(AggregateFunction f)
+    private int AggregatePresents(Func<int, int, int, int> f)
     {
-        return Input.Select(line => line.Split("x").Select(int.Parse).OrderBy(e => e).ToList()).Select(dimensions =>
-        {
-            int x = dimensions[0], y = dimensions[1], z = dimensions[2];
-
-            return f(x, y, z);
-        }).Sum();
+        return Input
+            .Select(line => line.Split("x").Select(int.Parse).OrderBy(e => e).ToList())
+            .Aggregate(0, (acc, dimensions) =>
+            {
+                int x = dimensions[0], y = dimensions[1], z = dimensions[2];
+                return acc + f(x, y, z);
+            });
     }
-
-    private delegate int AggregateFunction(int x, int y, int z);
 }
