@@ -16,30 +16,37 @@ public static class Runner
         else
         {
             var groupedSolutions = solutions.OrderBy(e => e.attr.Year + e.attr.Day).GroupBy(e => e.attr.Year).ToList();
+            
+            Console.WriteLine("Advent Of Code");
 
             foreach (var group in groupedSolutions)
             {
                 var groupYear = group.FirstOrDefault().attr.Year;
-                var i = 0;
 
-                Console.WriteLine($"{groupYear}");
+                var lastYear = group == groupedSolutions.Last();
+                var yearAscii = lastYear
+                    ? $"\u2514\u2500\u2500 {groupYear}"
+                    : $"\u251c\u2500\u2500 {groupYear}";
+                Console.WriteLine(yearAscii);
 
+                var mainLine = lastYear ? " " : "\u2502";
                 foreach (var pair in group)
                 {
-                    var dayAscii = i == group.Count() - 1
-                        ? $"\u2514\u2500\u2500 {pair.attr.Day:00}. {pair.attr.Title}:"
-                        : $"\u251c\u2500\u2500 {pair.attr.Day:00}. {pair.attr.Title}:";
+                    var lastDay = pair == group.Last();
+                    var yearLine = lastDay ? " " : "\u2502";
+                    
+                    var dayAscii = lastDay
+                        ? $"{mainLine}   \u2514\u2500\u2500 {pair.attr.Day:00}. {pair.attr.Title}:"
+                        : $"{mainLine}   \u251c\u2500\u2500 {pair.attr.Day:00}. {pair.attr.Title}:";
                     Console.WriteLine(dayAscii);
 
-                    var solutionAscii1 = i == group.Count() - 1
-                        ? "   \u251c\u2500\u2500"
-                        : "\u2502  \u251c\u2500\u2500";
-                    var solutionAscii2 = i == group.Count() - 1
-                        ? "   \u2514\u2500\u2500"
-                        : "\u2502  \u2514\u2500\u2500";
-                    pair.solution.PrintSolutions(solutionAscii1, solutionAscii2);
-
-                    i++;
+                    var topSolutionAscii = lastDay
+                        ? $"{mainLine}       \u251c\u2500\u2500"
+                        : $"{mainLine}   {yearLine}   \u251c\u2500\u2500";
+                    var botSolutionAscii = lastDay
+                        ? $"{mainLine}       \u2514\u2500\u2500"
+                        : $"{mainLine}   {yearLine}   \u2514\u2500\u2500";
+                    pair.solution.PrintSolutions(topSolutionAscii, botSolutionAscii);
                 }
             }
         }
@@ -85,9 +92,9 @@ public static class Runner
             var attr = assembly.GetCustomAttribute<SolutionAttribute>();
 
             if (attr is null) continue;
-            
+
             var inputPath = Path.Combine([Environment.CurrentDirectory, $"{attr.Year}", $"{attr.Day:00}", "input.txt"]);
-            var instance =Activator.CreateInstance(assembly, inputPath);
+            var instance = Activator.CreateInstance(assembly, inputPath);
 
             if (instance is null) continue;
 
