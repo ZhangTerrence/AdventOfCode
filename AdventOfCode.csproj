@@ -18,6 +18,8 @@
         <Folder Include="2015\08\"/>
         <Folder Include="2015\09\"/>
         <Folder Include="2015\10\"/>
+        <Folder Include="2015\11\"/>
+        <Folder Include="2015\12\"/>
         <Folder Include="2023\01\"/>
         <Folder Include="2023\02\"/>
     </ItemGroup>
@@ -51,6 +53,12 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="2015\10\input.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="2015\11\input.txt">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="2015\12\input.txt">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="2023\01\input.txt">
