@@ -99,6 +99,8 @@ public static class Runner
 
         var solutions = new List<(SolutionBase solution, SolutionAttribute attr)>();
 
+        if (givenIntDays.Count == 0) return allSolutions;
+
         foreach (var year in givenIntDays.Keys)
         {
             if (givenIntDays[year].Count == 0)

@@ -6,14 +6,13 @@ const string usage =
     Prints the puzzle solutions for the given year(s) and day(s).
     
         YEAR    If no year is given, prints every solution for every day. Must be in YYYY format.
-        DAY     If no day is given, prints every solution for the given year. Must be separated by 
+        DAY     If no day is given, prints every solution for the given year. Must be separated by
                 commas if multiple are given.
     """;
 
 var givenDays = new Dictionary<string, List<string>>();
 
 for (var i = 0; i < args.Length;)
-{
     if (args[i].Length == 4)
     {
         if (args[i + 1].Contains(',') || args[i + 1].Length <= 2)
@@ -26,7 +25,7 @@ for (var i = 0; i < args.Length;)
                 Console.WriteLine(usage);
                 Environment.Exit(1);
             }
-            
+
             givenDays[args[i]] = dayList;
             i += 2;
         }
@@ -43,11 +42,10 @@ for (var i = 0; i < args.Length;)
         Console.WriteLine(usage);
         Environment.Exit(1);
     }
-}
 
 try
 {
-   Runner.RunSolutions(givenDays);
+    Runner.RunSolutions(givenDays);
 }
 catch (Exception error)
 {
