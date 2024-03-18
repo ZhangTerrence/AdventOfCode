@@ -6,14 +6,14 @@ namespace AdventOfCode._2015._07;
 [Solution("Some Assembly Required", 2015, 07)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return ParseInstructions()["a"](new Signals());
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
-        return ParseInstructions()["a"](new Signals { ["b"] = SolvePartOne() });
+        return ParseInstructions()["a"](new Signals { ["b"] = (int)SolvePartOne() });
     }
 
     private SignalCalculator ParseInstructions()

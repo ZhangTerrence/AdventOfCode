@@ -5,12 +5,12 @@ namespace AdventOfCode._2015._02;
 [Solution("I Was Told There Would Be No Math", 2015, 02)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return AggregatePresents((x, y, z) => 2 * (x * y + y * z + x * z) + x * y);
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return AggregatePresents((x, y, z) => 2 * (x + y) + x * y * z);
     }

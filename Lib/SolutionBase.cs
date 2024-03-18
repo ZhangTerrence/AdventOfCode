@@ -16,7 +16,7 @@ public abstract class SolutionBase(string inputPath)
         Console.WriteLine($"{y} Part 2 => {solutionTwo}");
     }
 
-    protected abstract int SolvePartOne();
+    protected abstract object SolvePartOne();
 
-    protected abstract int SolvePartTwo();
+    protected abstract object SolvePartTwo();
 }

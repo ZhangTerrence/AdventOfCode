@@ -6,7 +6,7 @@ namespace AdventOfCode._2023._02;
 [Solution("Cube Conundrum", 2023, 02)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return Input.Select(ParseGames).Sum(pair =>
             pair.Item2[Colors.Red].Max() <= 12 &&
@@ -16,7 +16,7 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
                 : 0);
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return Input.Select(ParseGames).Sum(pair =>
             pair.Item2[Colors.Red].Max() *

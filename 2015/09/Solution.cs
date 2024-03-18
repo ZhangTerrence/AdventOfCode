@@ -5,12 +5,12 @@ namespace AdventOfCode._2015._09;
 [Solution("All in a Single Night", 2015, 09)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return FindDistances(Action.Min).MinBy(pair => pair.Value).Value;
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return FindDistances(Action.Max).MaxBy(pair => pair.Value).Value;
     }

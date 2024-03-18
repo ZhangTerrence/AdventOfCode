@@ -6,12 +6,12 @@ namespace AdventOfCode._2015._06;
 [Solution("Probably a Fire Hazard", 2015, 06)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return FollowInstructions(_ => 1, _ => 0, n => 1 - n);
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return FollowInstructions(n => n + 1, n => n <= 0 ? 0 : n - 1, n => n + 2);
     }

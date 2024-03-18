@@ -6,12 +6,12 @@ namespace AdventOfCode._2023._01;
 [Solution("Trebuchet?!", 2023, 01)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return AggregateStrings(@"\d");
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return AggregateStrings(@"\d|one|two|three|four|five|six|seven|eight|nine");
     }

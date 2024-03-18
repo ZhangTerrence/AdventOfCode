@@ -6,12 +6,12 @@ namespace AdventOfCode._2015._10;
 [Solution("Elves Look, Elves Say", 2015, 10)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return LookAndSay(Input[0]).Skip(39).First().Length;
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return LookAndSay(Input[0]).Skip(49).First().Length;
     }

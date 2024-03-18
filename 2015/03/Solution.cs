@@ -5,12 +5,12 @@ namespace AdventOfCode._2015._03;
 [Solution("Perfectly Spherical Houses in a Vacuum", 2015, 03)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return DeliverPresents(1);
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return DeliverPresents(2);
     }

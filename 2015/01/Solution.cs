@@ -5,12 +5,12 @@ namespace AdventOfCode._2015._01;
 [Solution("Not Quite Lisp", 2015, 01)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return TraverseFloors().Last().level;
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return TraverseFloors().First(pair => pair.level == -1).i;
     }

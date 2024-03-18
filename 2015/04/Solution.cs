@@ -8,12 +8,12 @@ namespace AdventOfCode._2015._04;
 [Solution("The Ideal Stocking Stuffer", 2015, 04)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return ComputeLowest("00000");
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return ComputeLowest("000000");
     }

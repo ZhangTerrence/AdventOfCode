@@ -5,7 +5,7 @@ namespace AdventOfCode._2015._05;
 [Solution("Doesn't He Have Intern-Elves For This?", 2015, 05)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return FilterStrings(line =>
         {
@@ -17,7 +17,7 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
         });
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return FilterStrings(line =>
         {

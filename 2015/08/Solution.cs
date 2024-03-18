@@ -6,7 +6,7 @@ namespace AdventOfCode._2015._08;
 [Solution("Matchsticks", 2015, 08)]
 public class Solution(string inputPath) : SolutionBase(inputPath)
 {
-    protected override int SolvePartOne()
+    protected override object SolvePartOne()
     {
         return CalculateDifference(
             s => s.Replace(@"\\", ".").Replace(@"\""", "."),
@@ -14,7 +14,7 @@ public class Solution(string inputPath) : SolutionBase(inputPath)
             s => s.Substring(1, s.Length - 2));
     }
 
-    protected override int SolvePartTwo()
+    protected override object SolvePartTwo()
     {
         return CalculateDifference(
             s => s.Replace(@"\", @"\\").Replace(@"""", @"\"""),
